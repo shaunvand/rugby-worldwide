@@ -102,7 +102,7 @@
   $$('.sec__head h2, .split__copy h2, .planner h2, .band h2').forEach(h => {
     ScrollTrigger.create({ trigger: h, start: 'top 88%', once: true, onEnter: () => h.classList.add('is-drawn') });
   });
-  const items = ['.svc', '.pkg', '.event', '.steps li', '.incl li', '.feats li', '.sched li', '.gallery li', '.who li', '.tier', '.prod__info > *', '.pgrid:not(.pgrid--store) .pcard', '.contact > *', '.tw__media figure', '.facts__in > div', '.faq details', '.partners li', '.campcard > *', '.cd__in > *'];
+  const items = ['.svc', '.pkg', '.event', '.steps li', '.incl li', '.feats li', '.sched li', '.gallery li', '.who li', '.tier', '.prod__info > *', '.pgrid:not(.pgrid--store) .pcard', '.contact > *', '.tw__media figure', '.facts__in > div', '.faq details', '.partners li', '.campcard > *', '.cd__in > *', '.ally', '.schools__pts li', '.warren__copy > *', '.kickstage__copy > *'];
   const els = items.flatMap(sel => $$(sel)).filter((e, i, a) => a.indexOf(e) === i && !e.closest('[data-store]') && !e.closest('.hero, .phero'));
   gsap.set(els, { opacity: 0, y: 44 });
   ScrollTrigger.batch(els, {
@@ -154,6 +154,55 @@
     place(0);
     ScrollTrigger.create({ trigger: journey, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: self => place(Math.min(1, self.progress * 1.18)) });
   }
+
+  // ---------------------------------------------------------- conversion kick: the ball sails over the crossbar
+  $$('svg.kick').forEach(svg => {
+    const trail = $('.kick__trail', svg), ball = $('.kick__ball', svg), shadow = $('.kick__shadow', svg);
+    const ring = $('.kick__ring', svg), call = $('.kick__call', svg), glow = $('.kick__glow', svg);
+    const back = $('.kick__back', svg), front = $('.kick__front', svg);
+    const len = trail.getTotalLength();
+    let cross = 0.9;                                   // where the ball passes the posts (x = 400, between the uprights)
+    for (let f = 0.3; f <= 1; f += 0.002) { if (trail.getPointAtLength(len * f).x >= 397) { cross = f; break; } }
+    const P = trail.getPointAtLength(len * cross);
+    ring.setAttribute('cx', P.x); ring.setAttribute('cy', P.y);
+    trail.style.strokeDasharray = `${len} ${len}`;
+    let behind = false, celebrated = false;
+    const place = f => {
+      const p = trail.getPointAtLength(len * Math.min(f, 1));
+      const s = 1.55 - 1.1 * Math.min(f / cross, 1) - 0.18 * Math.max(0, (f - cross) / (1 - cross)), spin = -30 + f * 1080;
+      ball.setAttribute('transform', `translate(${p.x} ${p.y}) scale(${s}) rotate(${spin})`);
+      ball.style.opacity = f > cross ? Math.max(0, 1 - (f - cross) / (1 - cross) * 0.85) : 1;
+      trail.style.strokeDashoffset = len * (1 - f);
+      const depth = Math.min(f / cross, 1.15), gy = 650 - 128 * depth;
+      const lift = Math.max(0, Math.min(1, (gy - p.y) / 380));
+      shadow.setAttribute('cx', p.x); shadow.setAttribute('cy', gy);
+      shadow.setAttribute('rx', 30 * s * (1 - lift * 0.5)); shadow.setAttribute('ry', 7 * s * (1 - lift * 0.5));
+      shadow.style.opacity = 0.9 * (1 - lift * 0.7);
+      const b = f > cross;                             // passed the posts: the ball goes behind them
+      if (b !== behind) { behind = b; (b ? back : front).appendChild(ball); }
+      if (b && !celebrated) { celebrated = true; celebrate(); }
+      if (!b) celebrated = false;
+    };
+    const celebrate = () => {
+      gsap.fromTo(ring, { attr: { r: 14 }, opacity: 1 }, { attr: { r: 110 }, opacity: 0, duration: 0.9, ease: 'power2.out' });
+      gsap.fromTo(glow, { opacity: 0.9 }, { opacity: 0, duration: 1.2, ease: 'power2.out' });
+      gsap.fromTo(call, { opacity: 0, scale: 0.4, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(3)' });
+      gsap.to(call, { opacity: 0, duration: 0.6, delay: 1.3 });
+    };
+    if (svg.dataset.kick === 'scroll') {
+      place(0);
+      const stage = svg.closest('.kickstage') || svg;
+      ScrollTrigger.create({ trigger: stage, start: 'top top', end: 'bottom bottom', scrub: 0.6,
+        onUpdate: self => place(Math.min(1, self.progress * 1.15)) });
+      return;
+    }
+    const st = { f: 0 };
+    const kick = (delay = 0) => gsap.fromTo(st, { f: 0 }, { f: 1, duration: 1.9, delay, ease: 'power1.out', overwrite: true, onUpdate: () => place(st.f) });
+    place(0);
+    kick(0.9);
+    svg.addEventListener('click', () => kick());
+    ScrollTrigger.create({ trigger: svg, start: 'top bottom', end: 'bottom top', onEnterBack: () => kick(0.1) });
+  });
 
   // ---------------------------------------------------------- magnetic buttons (fine pointers only)
   if (fine) {

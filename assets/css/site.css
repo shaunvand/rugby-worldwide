@@ -430,3 +430,77 @@ td input { width: 90px; min-height: 42px; padding: .4rem .6rem; border: 1.5px so
   .progress { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+
+/* ---- conversion kick (signature motion) ---- */
+.kick { overflow: visible; }
+.kick__ground path { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 2; stroke-dasharray: 3 9; }
+.kick__trail { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; opacity: .75; stroke-dasharray: 2 10; }
+.kick__frame { fill: none; stroke: #fff; stroke-width: 9; stroke-linecap: round; }
+.kick__glow { fill: none; stroke: var(--gold); stroke-width: 22; stroke-linecap: round; opacity: 0; filter: blur(6px); }
+.kick__posts rect { fill: var(--gold); }
+.kick__shadow { fill: rgba(0,0,0,.35); }
+.kick__ring { fill: none; stroke: var(--gold); stroke-width: 4; opacity: 0; }
+.kick__call { font: 800 64px/1 var(--display); fill: var(--gold); letter-spacing: .04em; opacity: 0; }
+.kick__ball ellipse { fill: var(--gold-2); stroke: #fff; stroke-width: 3; }
+.kick__ball path { fill: none; stroke: var(--navy); stroke-width: 3; stroke-linecap: round; }
+.kick--hero { position: absolute; z-index: 0; right: max(2vw, calc((100vw - var(--wrap)) / 2 - 4rem)); top: calc(var(--hdr) + 1rem); width: min(40vw, 520px); height: auto; aspect-ratio: 6 / 7; cursor: pointer; }
+.hero__in { pointer-events: none; } .hero__in > * { pointer-events: auto; }
+@media (max-width: 860px) {
+  .kick--hero { width: 62vw; right: -6vw; top: calc(var(--hdr) - .5rem); opacity: .55; }
+}
+/* scroll-driven kick stage */
+.kickstage { background: var(--navy); color: #fff; margin-top: clamp(3.5rem, 7vw, 6rem); }
+.kickstage__in { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; padding-block: clamp(2.5rem, 6vw, 4rem); }
+.kickstage h2 { color: #fff; }
+.kickstage .kicker { color: var(--gold); }
+.kickstage__copy p:not(.kicker) { color: rgba(255,255,255,.85); max-width: 34rem; }
+.kick--stage { width: 100%; max-width: 440px; height: auto; aspect-ratio: 6 / 7; justify-self: center; }
+.has-motion .kickstage { height: 200vh; }
+.has-motion .kickstage__sticky { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; overflow: hidden; }
+@media (max-width: 760px) {
+  .kickstage__in { grid-template-columns: 1fr; gap: .5rem; }
+  .kick--stage { max-width: min(78vw, 46svh); }
+}
+@media (prefers-reduced-motion: reduce) { .kickstage { height: auto !important; } .kickstage__sticky { position: static !important; min-height: 0 !important; } }
+
+/* founder */
+.warren { margin-top: clamp(3.5rem, 7vw, 6rem); background: var(--bg-2); overflow: hidden; }
+.warren__in { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; padding-block: clamp(3rem, 7vw, 5.5rem); }
+.warren__media { position: relative; min-height: 520px; }
+.warren__media figure { margin: 0; position: absolute; border-radius: 12px; overflow: hidden; box-shadow: 0 24px 60px rgba(17,32,42,.25); }
+.warren__media img { width: 100%; height: 100%; object-fit: cover; }
+.warren__poster { left: 0; top: 0; width: 52%; aspect-ratio: 9 / 16; z-index: 1; transform: rotate(-3deg); }
+.warren__snap { right: 0; bottom: 0; width: 62%; aspect-ratio: 4 / 3; z-index: 2; transform: rotate(2.5deg); border: 6px solid #fff; }
+.warren__snap figcaption { position: absolute; left: .8rem; bottom: .6rem; font: 700 .85rem var(--display); letter-spacing: .1em; text-transform: uppercase; color: #fff; background: rgba(17,32,42,.75); padding: .2rem .55rem; border-radius: 4px; }
+.warren__lead { font-size: 1.15rem; color: var(--ink); }
+.warren__copy p { color: var(--ink-2); }
+.warren__pull { font: 700 clamp(1.4rem, 2.4vw, 1.9rem)/1.2 var(--display); color: var(--navy) !important; border-left: 5px solid var(--gold); padding-left: 1rem; margin: 1.4rem 0; }
+@media (max-width: 860px) {
+  .warren__in { grid-template-columns: 1fr; }
+  .warren__media { min-height: 0; aspect-ratio: 1 / 1.05; max-width: 520px; width: 100%; margin-inline: auto; }
+}
+/* schools */
+.schools { position: relative; color: #fff; overflow: hidden; isolation: isolate; background: var(--navy); }
+.schools__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.schools__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, rgba(17,32,42,.94) 0%, rgba(17,32,42,.82) 50%, rgba(17,32,42,.45) 100%); }
+.schools__in { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.schools h2 { color: #fff; max-width: 20ch; font-size: clamp(2rem, 4.4vw, 3.4rem); }
+.schools__in > p:not(.kicker) { max-width: 40rem; color: rgba(255,255,255,.9); font-size: 1.1rem; }
+.schools__pts { list-style: none; padding: 0; margin: 1.8rem 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 1000px; }
+.schools__pts li { border-top: 4px solid var(--gold); padding-top: .8rem; }
+.schools__pts b { display: block; font: 700 1.3rem/1.1 var(--display); text-transform: uppercase; }
+.schools__pts span { font-size: .95rem; color: rgba(255,255,255,.82); }
+@media (max-width: 860px) { .schools__pts { grid-template-columns: 1fr 1fr; } }
+/* partners wall */
+.allies__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+.ally { border: 1px solid var(--line); border-radius: var(--r); padding: 1.4rem; display: flex; flex-direction: column; gap: .4rem; background: #fff; transition: transform .35s, box-shadow .35s; }
+.ally:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(17,32,42,.12); }
+.ally__mark { height: 96px; display: flex; align-items: center; margin-bottom: .6rem; }
+.ally__mark img { max-height: 96px; width: auto; max-width: 200px; object-fit: contain; }
+.ally__mark--text { gap: .7rem; }
+.ally__mark--text svg { width: 72px; height: 26px; fill: none; stroke: var(--grass); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+.ally__mark--text b { font: 800 1.9rem/1 var(--display); color: var(--navy); text-transform: uppercase; letter-spacing: .02em; }
+.ally h3 { font-size: 1.35rem; margin: 0; }
+.ally p { color: var(--ink-2); margin: 0 0 .6rem; flex: 1; }
+.ally .link { align-self: flex-start; }
+@media (max-width: 860px) { .allies__list { grid-template-columns: 1fr; } }
