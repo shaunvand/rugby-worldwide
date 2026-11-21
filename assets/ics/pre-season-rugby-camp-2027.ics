@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rugby Management Worldwide//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:pre-season-camp-2027@rugbyworldwide.co.za
+DTSTAMP:20261121T000000Z
+DTSTART;VALUE=DATE:20270108
+DTEND;VALUE=DATE:20270113
+SUMMARY:Pre-Season Rugby Camp (RMWW)
+LOCATION:Delsma Farm\, Riebeek-Kasteel 7307
+DESCRIPTION:5 days\, 4 nights. Ages 12 to 17.
+URL:https://rugbyworldwide.co.za/camp-clinics/
+END:VEVENT
+END:VCALENDAR

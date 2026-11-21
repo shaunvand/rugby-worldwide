@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rugby Management Worldwide//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:global-elite-7s-2027@rugbyworldwide.co.za
+DTSTAMP:20261121T000000Z
+DTSTART;VALUE=DATE:20271126
+DTEND;VALUE=DATE:20271129
+SUMMARY:Global Elite 7s 2027
+LOCATION:Cape Town\, South Africa
+DESCRIPTION:International u23 sevens festival. 48 teams.
+URL:https://rugbyworldwide.co.za/global-elite-7s/
+END:VEVENT
+END:VCALENDAR
