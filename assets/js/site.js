@@ -26,11 +26,16 @@
     tick(); setInterval(tick, 30000);
   });
 
-  // enquiry forms -> prefilled WhatsApp message or email (the static preview has no form backend)
+  // enquiry forms -> email via the site's mailer (rugbyworldwide.co.za), else prefilled WhatsApp / email app
+  const LIVE = /(^|\.)rugbyworldwide\.co\.za$/.test(location.hostname);
   $$('form[data-enquiry]').forEach(form => {
     let via = 'wa';
+    const hp = document.createElement('input');
+    hp.type = 'text'; hp.name = 'company_website'; hp.tabIndex = -1; hp.autocomplete = 'off'; hp.setAttribute('aria-hidden', 'true');
+    hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0';
+    form.appendChild(hp);
     $$('button[data-via]', form).forEach(b => b.addEventListener('click', () => { via = b.dataset.via; }));
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const msg = $('.form__msg', form);
       let bad = null;
@@ -42,9 +47,24 @@
       if (bad) { msg.textContent = 'Please complete the highlighted fields.'; msg.classList.add('is-err'); bad.focus(); return; }
       msg.classList.remove('is-err');
       const data = new FormData(form), rows = {};
-      for (const [k, v] of data) { if (String(v).trim()) rows[k] = rows[k] ? rows[k] + ', ' + v : v; }
+      for (const [k, v] of data) { if (k !== 'company_website' && String(v).trim()) rows[k] = rows[k] ? rows[k] + ', ' + v : v; }
       const title = form.dataset.enquiry === 'tour' ? 'Rugby tour enquiry' : form.dataset.enquiry;
       const text = `${title}\n\n` + Object.entries(rows).map(([k, v]) => `${k}: ${v}`).join('\n');
+      if (via === 'email' && LIVE) {
+        const btns = $$('button[type=submit]', form);
+        btns.forEach(b => { b.disabled = true; });
+        msg.textContent = 'Sending...';
+        try {
+          const r = await fetch('/wp-json/rmww/v1/enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ form: title, fields: rows, page: location.href, hp: hp.value }) });
+          if (!r.ok) throw new Error(r.status);
+          msg.textContent = `Thank you. Your enquiry was sent to ${EMAIL} and we will reply soon.`;
+          form.reset();
+          return;
+        } catch (err) {
+          msg.textContent = '';
+        } finally { btns.forEach(b => { b.disabled = false; }); }
+      }
       if (via === 'email') location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(title + ' (website)')}&body=${encodeURIComponent(text)}`;
       else window.open(`https://wa.me/${WA}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
       msg.textContent = via === 'email' ? 'Your email app has opened with the details filled in.' : 'WhatsApp has opened with your message ready to send.';
