@@ -504,3 +504,26 @@ td input { width: 90px; min-height: 42px; padding: .4rem .6rem; border: 1.5px so
 .ally p { color: var(--ink-2); margin: 0 0 .6rem; flex: 1; }
 .ally .link { align-self: flex-start; }
 @media (max-width: 860px) { .allies__list { grid-template-columns: 1fr; } }
+
+/* rugby guides */
+.rguides__list, .ghub { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr)); }
+.rguides__list li, .ghub__item a { display: flex; flex-direction: column; gap: .4rem; padding: 1.2rem 1.3rem; border: 1px solid rgba(17,32,42,.12); border-radius: 12px; background: #fff; }
+.rguides__list a, .ghub__item strong { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 1.3rem; line-height: 1.15; color: #11202a; text-decoration: none; }
+.rguides__list a:hover { text-decoration: underline; }
+.rguides__list span, .ghub__item span:last-child { color: #4a5560; font-size: .95rem; }
+.ghub__item a { text-decoration: none; height: 100%; transition: border-color .2s, transform .2s; }
+.ghub__item a:hover, .ghub__item a:focus-visible { border-color: #ffba00; transform: translateY(-2px); }
+.guide__grid { display: grid; gap: 2.5rem; }
+@media (min-width: 64rem) { .guide__grid { grid-template-columns: minmax(0, 46rem) 16rem; justify-content: space-between; } .guide__aside { position: sticky; top: 6rem; align-self: start; } }
+.guide__meta { font-size: .9rem; color: #4a5560; }
+.guide__toc { margin: 1.2rem 0 1.6rem; padding: 1rem 1.2rem; border-left: 4px solid #ffba00; background: rgba(255,186,0,.08); border-radius: 0 10px 10px 0; }
+.guide__toc p { margin: 0 0 .4rem; font-weight: 700; }
+.guide__toc ol { margin: 0; padding-left: 1.2rem; }
+.guide__body h2 { scroll-margin-top: 6rem; }
+.guide__body h3 { margin-top: 1.2em; }
+.guide__next { margin-top: 2rem; padding: 1.3rem; border-radius: 12px; background: #11202a; }
+.guide__next p, .guide__next strong { color: #fff; }
+.guide__next .btn { margin: .3rem .4rem 0 0; }
+.guide__next .btn--ghost { color: #fff; border-color: rgba(255,255,255,.6); }
+.guide__aside ul { list-style: none; padding: 0; margin: .5rem 0 1rem; display: grid; gap: .7rem; }
+.guide__aside a { color: #11202a; }
