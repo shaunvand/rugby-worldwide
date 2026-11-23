@@ -31,7 +31,7 @@
   $$('form[data-enquiry]').forEach(form => {
     let via = 'wa';
     const hp = document.createElement('input');
-    hp.type = 'text'; hp.name = 'company_website'; hp.tabIndex = -1; hp.autocomplete = 'off'; hp.setAttribute('aria-hidden', 'true');
+    hp.type = 'text'; hp.name = 'rmww_hpx'; hp.tabIndex = -1; hp.autocomplete = 'off'; hp.setAttribute('aria-hidden', 'true');
     hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0';
     form.appendChild(hp);
     $$('button[data-via]', form).forEach(b => b.addEventListener('click', () => { via = b.dataset.via; }));
@@ -47,7 +47,7 @@
       if (bad) { msg.textContent = 'Please complete the highlighted fields.'; msg.classList.add('is-err'); bad.focus(); return; }
       msg.classList.remove('is-err');
       const data = new FormData(form), rows = {};
-      for (const [k, v] of data) { if (k !== 'company_website' && String(v).trim()) rows[k] = rows[k] ? rows[k] + ', ' + v : v; }
+      for (const [k, v] of data) { if (k !== 'rmww_hpx' && String(v).trim()) rows[k] = rows[k] ? rows[k] + ', ' + v : v; }
       const title = form.dataset.enquiry === 'tour' ? 'Rugby tour enquiry' : form.dataset.enquiry;
       const text = `${title}\n\n` + Object.entries(rows).map(([k, v]) => `${k}: ${v}`).join('\n');
       if (via === 'email' && LIVE) {
